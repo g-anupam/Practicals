@@ -1,0 +1,40 @@
+import pickle
+def create():
+    with open("file.abc",'wb') as f:
+        b1 = int(input("Enter number of records you wish to enter:"))
+        for i in range(b1):
+            print("The following are the entries for student:",i+1)
+            c1 = int(input("Enter roll number of student:"))
+            c2 = input("Enter name of student:")
+            c3 = int(input("Enter marks of student:"))
+            l = [c1,c2,c3]
+            pickle.dump(l,f)
+
+
+def updates():
+    z = int(input("Enter roll number of student whose record you wish to update:"))
+    f = open("file.abc",'rb+')
+    s = open("duplicate.abc",'wb')
+    l = []
+    while True:
+        try:
+            x = pickle.load(f)
+            if x[0] == z:
+                l.extend(x)
+            else:
+                pickle.dump(x,s)
+        except EOFError:
+            break
+    print("The record you wish to update is:",l)
+    a = int(input("Enter the new marks you would like to append:"))
+    l[2] = a
+    pickle.dump(l,s)
+    f.close()
+    s.close()
+    p = open("duplicate.abc",'rb')
+    while True:
+        try:
+            r = pickle.load(p)
+            print(r)
+        except EOFError:
+            break
